@@ -10,4 +10,8 @@
     <string name="menu_all">Todos</string>
     <string name="menu_present">Presentes</string>
     <string name="menu_absent">Ausentes</string>
+    <string name="name">Nome</string>
+    <string name="present">Presença</string>
+    <string name="absent">Ausência</string>
+    <string name="save">salvar</string>
 </resources>
