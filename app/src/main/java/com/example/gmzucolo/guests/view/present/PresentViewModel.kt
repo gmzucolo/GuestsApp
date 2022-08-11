@@ -1,4 +1,4 @@
-package com.example.gmzucolo.guests.ui.present
+package com.example.gmzucolo.guests.view.present
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.example.gmzucolo.guests
+package com.example.gmzucolo.guests.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gmzucolo.guests.R
 import com.example.gmzucolo.guests.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
