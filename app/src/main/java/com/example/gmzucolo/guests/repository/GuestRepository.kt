@@ -25,19 +25,25 @@ class GuestRepository private constructor(context: Context) {
 
     }
 
-    fun insert(guest: GuestModel) {
+    //metodo que faz a inserçao do objeto Guest na tabela, retorna verdadeiro ou falso
+    fun insert(guest: GuestModel): Boolean {
+        return try {
+            //metodo que grava dados no banco de dados
+            val db = guestDataBase.writableDatabase
 
-        //metodo que grava dados no banco de dados
-        val db = guestDataBase.writableDatabase
+            //metodo que transforma o parametro booleano presence em inteiro
+            val presence = if (guest.presence) 1 else 0
 
-        //metodo que transforma o parametro booleano presence em inteiro
-        val presence = if (guest.presence) 1 else 0
+            //metodo que passa os valores para a tabela
+            val values = ContentValues()
+            values.put("name", guest.name)
+            values.put("presence", presence)
 
-        //metodo que passa os valores para a tabela
-        val values = ContentValues()
-        values.put("name", guest.name)
-        values.put("presence", presence)
+            db.insert("Guest", null, values)
 
-        db.insert("Guest", null, values)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 }
