@@ -2,6 +2,7 @@ package com.example.gmzucolo.guests.repository
 
 import android.content.ContentValues
 import android.content.Context
+import com.example.gmzucolo.guests.constants.DataBaseConstants
 import com.example.gmzucolo.guests.model.GuestModel
 
 // classe que fornece manipulação dos dados
@@ -36,10 +37,10 @@ class GuestRepository private constructor(context: Context) {
 
             //metodo que passa os valores para a tabela
             val values = ContentValues()
-            values.put("name", guest.name)
-            values.put("presence", presence)
+            values.put(DataBaseConstants.GUEST.COLUMNS.NAME, guest.name)
+            values.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, presence)
 
-            db.insert("Guest", null, values)
+            db.insert(DataBaseConstants.GUEST.TABLE_NAME, null, values)
 
             true
         } catch (e: Exception) {
