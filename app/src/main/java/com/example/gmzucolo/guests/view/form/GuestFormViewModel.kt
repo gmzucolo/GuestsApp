@@ -1,4 +1,4 @@
-package com.example.gmzucolo.guests.viewmodel
+package com.example.gmzucolo.guests.view.form
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

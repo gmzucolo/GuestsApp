@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gmzucolo.guests.R
 import com.example.gmzucolo.guests.databinding.ActivityMainBinding
+import com.example.gmzucolo.guests.view.form.GuestFormActivity
 
 class MainActivity : AppCompatActivity() {
 

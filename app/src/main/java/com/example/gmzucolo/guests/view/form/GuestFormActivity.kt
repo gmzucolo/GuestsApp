@@ -1,10 +1,9 @@
-package com.example.gmzucolo.guests.view
+package com.example.gmzucolo.guests.view.form
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.example.gmzucolo.guests.viewmodel.GuestFormViewModel
 import com.example.gmzucolo.guests.R
 import com.example.gmzucolo.guests.databinding.ActivityGuestFormBinding
 import com.example.gmzucolo.guests.model.GuestModel

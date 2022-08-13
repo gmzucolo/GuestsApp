@@ -6,7 +6,7 @@ import android.content.Context
 import com.example.gmzucolo.guests.constants.DataBaseConstants
 import com.example.gmzucolo.guests.model.GuestModel
 
-// classe que fornece manipulação dos dados
+//classe que fornece manipulação dos dados
 class GuestRepository private constructor(context: Context) {
 
     private val guestDataBase = GuestDataBase(context)
