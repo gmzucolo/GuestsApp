@@ -50,6 +50,7 @@ class GuestRepository private constructor(context: Context) {
 
     fun update(guest: GuestModel): Boolean {
         return try {
+            //metodo que grava dados no banco de dados
             val db = guestDataBase.writableDatabase
             val presence = if (guest.presence) 1 else 0
 
@@ -61,6 +62,21 @@ class GuestRepository private constructor(context: Context) {
             val args = arrayOf(guest.id.toString())
 
             db.update(DataBaseConstants.GUEST.TABLE_NAME, values, selection, args)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun delete(guestId: Int): Boolean {
+        return try {
+            //metodo que grava dados no banco de dados
+            val db = guestDataBase.writableDatabase
+
+            val selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?"
+            val args = arrayOf(guestId.toString())
+
+            db.delete(DataBaseConstants.GUEST.TABLE_NAME, selection, args)
             true
         } catch (e: Exception) {
             false
