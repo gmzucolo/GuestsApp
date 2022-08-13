@@ -39,7 +39,8 @@ class AllGuestsFragment : Fragment() {
             }
 
             override fun onDelete(guestId: Int) {
-                TODO("Not yet implemented")
+                allGuestsViewModel.delete(guestId)
+                allGuestsViewModel.getAll()
             }
 
         }
