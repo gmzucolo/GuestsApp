@@ -96,15 +96,92 @@ class GuestRepository private constructor(context: Context) {
             //metodo que lê dados no banco de dados
             val db = guestDataBase.readableDatabase
 
-            val selection = arrayOf(
+            val projection = arrayOf(
                 DataBaseConstants.GUEST.COLUMNS.ID,
                 DataBaseConstants.GUEST.COLUMNS.NAME,
                 DataBaseConstants.GUEST.COLUMNS.PRESENCE,
             )
 
             val cursor = db.query(
-                DataBaseConstants.GUEST.TABLE_NAME, selection, null, null, null, null, null
+                DataBaseConstants.GUEST.TABLE_NAME, projection, null, null, null, null, null
             )
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
+                    val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+
+                    //monta o objeto Guest e o adiciona a lista
+                    list.add(GuestModel(id, name, presence == 1))
+                }
+            }
+
+            //fechar o cursor
+            cursor.close()
+        } catch (e: Exception) {
+            return list
+        }
+        return list
+    }
+
+    //metodo que retorna a lista de convidados presentes
+    @SuppressLint("Range")
+    fun getAllPresents(): List<GuestModel> {
+
+        val list = mutableListOf<GuestModel>()
+
+        try {
+            //metodo que lê dados no banco de dados
+            val db = guestDataBase.readableDatabase
+
+//            val projection = arrayOf(
+//                DataBaseConstants.GUEST.COLUMNS.ID,
+//                DataBaseConstants.GUEST.COLUMNS.NAME,
+//                DataBaseConstants.GUEST.COLUMNS.PRESENCE,
+//            )
+//
+//            //metodo que faz define uma seleção onde presença = 1 (presentes)
+//            val selection = DataBaseConstants.GUEST.COLUMNS.PRESENCE + " = ?"
+//            val args = arrayOf("1")
+//
+//            //metodo que faz a consulta na tabela name com a seleção acima definida
+//            val cursor = db.query(
+//                DataBaseConstants.GUEST.TABLE_NAME, projection, selection, null, null, null, null
+//            )
+//            O método acima comentado, pode ser substítuido pelo código abaixo (menos seguro)
+            val cursor = db.rawQuery("SELECT id, name, presence FROM Guest WHERE presence = 1", null)
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
+                    val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+
+                    //monta o objeto Guest e o adiciona a lista
+                    list.add(GuestModel(id, name, presence == 1))
+                }
+            }
+
+            //fechar o cursor
+            cursor.close()
+        } catch (e: Exception) {
+            return list
+        }
+        return list
+    }
+
+    //metodo que retorna a lista de convidados ausentes
+    @SuppressLint("Range")
+    fun getAllAbsents(): List<GuestModel> {
+
+        val list = mutableListOf<GuestModel>()
+
+        try {
+            //metodo que lê dados no banco de dados
+            val db = guestDataBase.readableDatabase
+
+            val cursor = db.rawQuery("SELECT id, name, presence FROM Guest WHERE presence = 0", null)
 
             if (cursor != null && cursor.count > 0) {
                 while (cursor.moveToNext()) {
