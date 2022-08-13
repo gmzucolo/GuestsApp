@@ -2,6 +2,7 @@ package com.example.gmzucolo.guests.view.form
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.gmzucolo.guests.R
@@ -55,6 +56,14 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
                 binding.radioAbsent.isChecked = true
             }
         }
+
+        guestViewModel.saveGuest.observe(this) {
+            if (it != "") {
+                Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
+
     }
 
     private fun loadData() {
