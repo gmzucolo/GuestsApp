@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
+//classe que fornece conexão com o banco de dados
 class GuestDataBase(context: Context) : SQLiteOpenHelper(context, NAME, null, VERSION) {
 
     companion object {
