@@ -108,9 +108,12 @@ class GuestRepository private constructor(context: Context) {
 
             if (cursor != null && cursor.count > 0) {
                 while (cursor.moveToNext()) {
-                    val id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
-                    val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
-                    val presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+                    val id =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
+                    val name =
+                        cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
 
                     //monta o objeto Guest e o adiciona a lista
                     list.add(GuestModel(id, name, presence == 1))
@@ -123,6 +126,49 @@ class GuestRepository private constructor(context: Context) {
             return list
         }
         return list
+    }
+
+    //metodo que retorna a lista de convidados
+    @SuppressLint("Range")
+    fun getOne(guestId: Int): GuestModel? {
+
+        var guest: GuestModel? = null
+
+        try {
+            //metodo que lê dados no banco de dados
+            val db = guestDataBase.readableDatabase
+
+            val projection = arrayOf(
+                DataBaseConstants.GUEST.COLUMNS.ID,
+                DataBaseConstants.GUEST.COLUMNS.NAME,
+                DataBaseConstants.GUEST.COLUMNS.PRESENCE,
+            )
+
+            val selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?"
+            var args = arrayOf(guestId.toString())
+
+            val cursor = db.query(
+                DataBaseConstants.GUEST.TABLE_NAME, projection, selection, args, null, null, null
+            )
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val name =
+                        cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+
+                    //monta o objeto Guest e o adiciona a lista
+                    guest = (GuestModel(guestId, name, presence == 1))
+                }
+            }
+
+            //fechar o cursor
+            cursor.close()
+        } catch (e: Exception) {
+            return guest
+        }
+        return guest
     }
 
     //metodo que retorna a lista de convidados presentes
@@ -150,13 +196,17 @@ class GuestRepository private constructor(context: Context) {
 //                DataBaseConstants.GUEST.TABLE_NAME, projection, selection, null, null, null, null
 //            )
 //            O método acima comentado, pode ser substítuido pelo código abaixo (menos seguro)
-            val cursor = db.rawQuery("SELECT id, name, presence FROM Guest WHERE presence = 1", null)
+            val cursor =
+                db.rawQuery("SELECT id, name, presence FROM Guest WHERE presence = 1", null)
 
             if (cursor != null && cursor.count > 0) {
                 while (cursor.moveToNext()) {
-                    val id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
-                    val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
-                    val presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+                    val id =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
+                    val name =
+                        cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
 
                     //monta o objeto Guest e o adiciona a lista
                     list.add(GuestModel(id, name, presence == 1))
@@ -181,13 +231,17 @@ class GuestRepository private constructor(context: Context) {
             //metodo que lê dados no banco de dados
             val db = guestDataBase.readableDatabase
 
-            val cursor = db.rawQuery("SELECT id, name, presence FROM Guest WHERE presence = 0", null)
+            val cursor =
+                db.rawQuery("SELECT id, name, presence FROM Guest WHERE presence = 0", null)
 
             if (cursor != null && cursor.count > 0) {
                 while (cursor.moveToNext()) {
-                    val id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
-                    val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
-                    val presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+                    val id =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
+                    val name =
+                        cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
 
                     //monta o objeto Guest e o adiciona a lista
                     list.add(GuestModel(id, name, presence == 1))

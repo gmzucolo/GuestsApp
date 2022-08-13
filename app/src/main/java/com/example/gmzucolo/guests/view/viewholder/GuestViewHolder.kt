@@ -1,5 +1,7 @@
 package com.example.gmzucolo.guests.view.viewholder
 
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gmzucolo.guests.databinding.ItemGuestBinding
 import com.example.gmzucolo.guests.model.GuestModel
@@ -18,7 +20,13 @@ class GuestViewHolder(
             listener.onClick(guestModel.id)
         }
         binding.textName.setOnLongClickListener {
-            listener.onDelete(guestModel.id)
+            AlertDialog.Builder(itemView.context)
+                .setTitle("Remoção de convidado")
+                .setMessage("Tem certeza que deseja remover?")
+                .setPositiveButton("Sim") { dialog, which -> listener.onDelete(guestModel.id) }
+                .setNegativeButton("Não", null)
+                .create()
+                .show()
             true
         }
     }
