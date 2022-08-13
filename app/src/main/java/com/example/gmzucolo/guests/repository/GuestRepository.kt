@@ -1,5 +1,6 @@
 package com.example.gmzucolo.guests.repository
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import com.example.gmzucolo.guests.constants.DataBaseConstants
@@ -48,6 +49,7 @@ class GuestRepository private constructor(context: Context) {
         }
     }
 
+    //metodo que faz a atualização do objeto Guest na tabela, retorna verdadeiro ou falso
     fun update(guest: GuestModel): Boolean {
         return try {
             //metodo que grava dados no banco de dados
@@ -68,6 +70,7 @@ class GuestRepository private constructor(context: Context) {
         }
     }
 
+    //metodo que faz a remoção do objeto Guest na tabela, retorna verdadeiro ou falso
     fun delete(guestId: Int): Boolean {
         return try {
             //metodo que grava dados no banco de dados
@@ -81,5 +84,44 @@ class GuestRepository private constructor(context: Context) {
         } catch (e: Exception) {
             false
         }
+    }
+
+    //metodo que retorna a lista de convidados
+    @SuppressLint("Range")
+    fun getAll(): List<GuestModel> {
+
+        val list = mutableListOf<GuestModel>()
+
+        try {
+            //metodo que lê dados no banco de dados
+            val db = guestDataBase.readableDatabase
+
+            val selection = arrayOf(
+                DataBaseConstants.GUEST.COLUMNS.ID,
+                DataBaseConstants.GUEST.COLUMNS.NAME,
+                DataBaseConstants.GUEST.COLUMNS.PRESENCE,
+            )
+
+            val cursor = db.query(
+                DataBaseConstants.GUEST.TABLE_NAME, selection, null, null, null, null, null
+            )
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
+                    val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+
+                    //monta o objeto Guest e o adiciona a lista
+                    list.add(GuestModel(id, name, presence == 1))
+                }
+            }
+
+            //fechar o cursor
+            cursor.close()
+        } catch (e: Exception) {
+            return list
+        }
+        return list
     }
 }
