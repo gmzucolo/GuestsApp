@@ -21,13 +21,13 @@ class AllGuestsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var allGuestsViewModel: AllGuestsViewModel
+    private lateinit var guestsViewModel: GuestsViewModel
     private val adapter = GuestsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, b: Bundle?
     ): View {
-        allGuestsViewModel = ViewModelProvider(this).get(AllGuestsViewModel::class.java)
+        guestsViewModel = ViewModelProvider(this).get(GuestsViewModel::class.java)
 
         _binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
 
@@ -44,8 +44,8 @@ class AllGuestsFragment : Fragment() {
             }
 
             override fun onDelete(guestId: Int) {
-                allGuestsViewModel.delete(guestId)
-                allGuestsViewModel.getAll()
+                guestsViewModel.delete(guestId)
+                guestsViewModel.getAll()
             }
 
         }
@@ -58,7 +58,7 @@ class AllGuestsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        allGuestsViewModel.getAll()
+        guestsViewModel.getAll()
     }
 
     override fun onDestroyView() {
@@ -67,7 +67,7 @@ class AllGuestsFragment : Fragment() {
     }
 
     private fun observe() {
-        allGuestsViewModel.guests.observe(viewLifecycleOwner) {
+        guestsViewModel.guests.observe(viewLifecycleOwner) {
             adapter.updateGuests(it)
         }
     }
