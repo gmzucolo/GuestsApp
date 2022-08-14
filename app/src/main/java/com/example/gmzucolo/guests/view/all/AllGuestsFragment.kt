@@ -35,16 +35,16 @@ class AllGuestsFragment : Fragment() {
         binding.recyclerAllGuests.adapter = adapter
 
         val listener = object : OnGuestListener {
-            override fun onClick(guestId: Int) {
+            override fun onClick(id: Int) {
                 val intent = Intent(context, GuestFormActivity::class.java)
                 val bundle = Bundle()
-                bundle.putInt(DataBaseConstants.GUEST.ID, guestId)
+                bundle.putInt(DataBaseConstants.GUEST.ID, id)
                 intent.putExtras(bundle)
                 startActivity(intent)
             }
 
-            override fun onDelete(guestId: Int) {
-                guestsViewModel.delete(guestId)
+            override fun onDelete(id: Int) {
+                guestsViewModel.delete(id)
                 guestsViewModel.getAll()
             }
 

@@ -10,34 +10,33 @@ import com.example.gmzucolo.guests.repository.GuestRepository
 // diferença entre ViewModel e AndroidViewModel é que este possui um contexto
 class GuestFormViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = GuestRepository.getInstance(application)
+    private val repository = GuestRepository(application.applicationContext)
 
-    private val _guestModel = MutableLiveData<GuestModel>()
+    private var _guestModel = MutableLiveData<GuestModel>()
     val guestModel: LiveData<GuestModel> = _guestModel
 
-    private val _saveGuest = MutableLiveData<String>()
-    val saveGuest: LiveData<String> = _saveGuest
+    private val _saveGuest = MutableLiveData<Boolean>()
+    val saveGuest: LiveData<Boolean> = _saveGuest
 
-    fun save(guest: GuestModel) {
-        if (guest.id == 0) {
-            if (repository.insert(guest)) {
-                //metodo que insere para o repositorio o objeto Guest
-                _saveGuest.value = "Inserção com sucesso"
-            } else {
-                _saveGuest.value = "Falha"
-            }
+    fun save(id: Int, name: String, presence: Boolean) {
+        // metodo que constroi o objeto Guest, metodo apply representa que nessa instância tais valores serão aplicados
+        val guest = GuestModel().apply {
+            this.id = id
+            this.name = name
+            this.presence = presence
+        }
+
+        if (id == 0) {
+            //metodo que insere para o repositorio o objeto Guest
+            _saveGuest.value = repository.insert(guest)
         } else {
-            if (repository.update(guest)) {
-                //metodo que atualiza para o repositorio o objeto Guest
-                _saveGuest.value = "Atualização com sucesso"
-            } else {
-                _saveGuest.value = "Falha"
-            }
+            //metodo que atualiza para o repositorio o objeto Guest
+            _saveGuest.value = repository.update(guest)
         }
     }
 
 
-    fun get(guestId: Int) {
-        _guestModel.value = repository.getOne(guestId)
+    fun get(id: Int) {
+        _guestModel.value = repository.getOne(id)
     }
 }

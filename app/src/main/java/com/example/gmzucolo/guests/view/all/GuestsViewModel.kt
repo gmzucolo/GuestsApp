@@ -10,23 +10,23 @@ import com.example.gmzucolo.guests.repository.GuestRepository
 class GuestsViewModel(application: Application) : AndroidViewModel(application) {
 
     private var repository: GuestRepository =
-        GuestRepository.getInstance(application.applicationContext)
-    private val listAllGuestes = MutableLiveData<List<GuestModel>>()
-    val guests: LiveData<List<GuestModel>> = listAllGuestes
+        GuestRepository(application.applicationContext)
+    private val listAllGuests = MutableLiveData<List<GuestModel>>()
+    val guests: LiveData<List<GuestModel>> = listAllGuests
 
     fun getAll() {
-        listAllGuestes.value = repository.getAll()
+        listAllGuests.value = repository.getAll()
     }
 
     fun getPresent() {
-        listAllGuestes.value = repository.getAllPresents()
+        listAllGuests.value = repository.getPresents()
     }
 
     fun getAbsent() {
-        listAllGuestes.value = repository.getAllAbsents()
+        listAllGuests.value = repository.getAbsents()
     }
 
-    fun delete(guestId: Int) {
-        repository.delete(guestId)
+    fun delete(id: Int) {
+        repository.delete(id)
     }
 }

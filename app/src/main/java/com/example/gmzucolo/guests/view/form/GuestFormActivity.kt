@@ -15,7 +15,7 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityGuestFormBinding
     private lateinit var guestViewModel: GuestFormViewModel
 
-    private var guestId = 0
+    private var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +35,8 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
         if (view.id == R.id.bt_save) {
             val name = binding.editName.text.toString()
             val presence = binding.radioPresent.isChecked
-            // metodo que constroi o objeto Guest
-            val guest = GuestModel(guestId, name, presence)
             // metodo que envia para a viewmodel o objeto Guest
-            guestViewModel.save(guest)
+            guestViewModel.save(id, name, presence)
         }
     }
 
@@ -58,10 +56,12 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         guestViewModel.saveGuest.observe(this) {
-            if (it != "") {
-                Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
-                finish()
+            if (it) {
+                Toast.makeText(applicationContext, "Sucesso", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(applicationContext, "Falha", Toast.LENGTH_SHORT).show()
             }
+            finish()
         }
 
     }
@@ -69,8 +69,8 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
     private fun loadData() {
         val bundle = intent.extras
         if (bundle != null) {
-            guestId = bundle.getInt(DataBaseConstants.GUEST.ID)
-            guestViewModel.get(guestId)
+            id = bundle.getInt(DataBaseConstants.GUEST.ID)
+            guestViewModel.get(id)
         }
     }
 

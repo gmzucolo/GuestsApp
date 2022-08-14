@@ -11,11 +11,11 @@ import com.example.gmzucolo.guests.view.viewholder.GuestViewHolder
 class GuestsAdapter : RecyclerView.Adapter<GuestViewHolder>() {
 
     private var guestList: List<GuestModel> = listOf()
-    private lateinit var listener: OnGuestListener
+    private lateinit var guestListener: OnGuestListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuestViewHolder {
         val item = ItemGuestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return GuestViewHolder(item, listener)
+        return GuestViewHolder(item, guestListener)
     }
 
     override fun onBindViewHolder(holder: GuestViewHolder, position: Int) {
@@ -31,7 +31,7 @@ class GuestsAdapter : RecyclerView.Adapter<GuestViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun attachListener(guestListener: OnGuestListener) {
-        listener = guestListener
+    fun attachListener(listener: OnGuestListener) {
+        guestListener = listener
     }
 }

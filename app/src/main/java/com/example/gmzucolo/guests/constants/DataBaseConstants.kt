@@ -4,7 +4,7 @@ class DataBaseConstants private constructor() {
 
     object GUEST {
         const val TABLE_NAME = "Guest"
-        const val ID = "guestid"
+        const val ID = "id"
 
         object COLUMNS {
             const val ID = "id"
